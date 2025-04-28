@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Options - SMILE AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 relative">
+    <!-- Navigation Bar -->
+    <nav class="absolute top-0 left-0 right-0 p-4 z-10 flex justify-between items-center">
+        <a href="index.html" class="nav-button text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm">
+            ← Back to Welcome Page
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center relative z-10">
+        <h1 class="text-5xl heading-font text-white mb-4 animate-fade-in text-center">
+            Analysis Options
+        </h1>
+        <p class="text-xl subheading-font text-gray-300 mb-12 animate-fade-in text-center" style="animation-delay: 0.2s;">
+            Choose your preferred analysis method
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full">
+            <!-- Individual Analysis Card -->
+            <div class="analysis-card animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="card-content">
+                    <h2 class="text-2xl heading-font text-white mb-4">Individual Analysis</h2>
+                    <p class="text-gray-300 mb-6">Analyze a single tooth with detailed segmentation and classification.</p>
+                    <a href="individual.html" class="analysis-button">
+                        Start Analysis
+                        <span class="button-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Collective Analysis Card -->
+            <div class="analysis-card animate-fade-in" style="animation-delay: 0.6s;">
+                <div class="card-content">
+                    <h2 class="text-2xl heading-font text-white mb-4">Collective Analysis</h2>
+                    <p class="text-gray-300 mb-6">Analyze multiple teeth simultaneously for comprehensive results.</p>
+                    <a href="collective.html" class="analysis-button">
+                        Start Analysis
+                        <span class="button-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .analysis-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .analysis-button {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .button-arrow {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .analysis-button:hover .button-arrow {
+            transform: translateX(3px);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</body>
+</html> 

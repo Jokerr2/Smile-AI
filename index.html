@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental X-ray Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+        .heading-font {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .subheading-font {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+    </style>
+</head>
+<body class="bg-black min-h-screen bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+    <!-- Dark overlay for better text visibility -->
+    <div class="absolute inset-0 overlay"></div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="absolute top-0 left-0 right-0 p-4 z-10 flex justify-between items-center">
+        <a href="dashboard.html" class="nav-button text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm">
+            ← Back to Dashboard
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-16 min-h-screen flex items-center justify-center relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+            <h1 class="text-7xl heading-font text-white mb-8 animate-fade-in" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                Welcome to SMILE AI
+            </h1>
+            <p class="text-2xl subheading-font text-white mb-12 animate-fade-in" style="animation-delay: 0.3s; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                Advanced AI-powered dental analysis for precise tooth classification
+            </p>
+            
+            <div class="animate-fade-in" style="animation-delay: 0.6s;">
+                <a href="dashboard.html" class="inline-block logo-button">
+                    <img src="logoforopg-removebg.png" 
+                         alt="Start Analysis" 
+                         class="w-48 h-48 animate-pulse"
+                         style="filter: brightness(0.8);">
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
