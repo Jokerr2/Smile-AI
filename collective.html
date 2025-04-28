@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collective Analysis - SMILE AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen relative" style="background-color: #2a2a2a;">
+    <!-- Dark overlay for better text visibility -->
+    <div class="absolute inset-0 overlay"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="absolute top-0 left-0 right-0 p-4 z-10 flex justify-between items-center">
+        <a href="dashboard.html" class="nav-button text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm">
+            ← Back to Dashboard
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center relative z-10">
+        <h1 class="text-5xl heading-font text-white mb-4 animate-fade-in text-center">
+            Collective Analysis
+        </h1>
+        <p class="text-xl subheading-font text-gray-300 mb-12 animate-fade-in text-center" style="animation-delay: 0.2s;">
+            Upload a complete X-ray image for comprehensive analysis
+        </p>
+
+        <div class="max-w-4xl w-full">
+            <div class="bg-black/70 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/20">
+                <!-- Image Upload -->
+                <div class="mb-8">
+                    <h2 class="text-2xl heading-font text-white mb-4">Upload X-ray Image</h2>
+                    <div class="border-2 border-dashed border-white/30 rounded-lg p-8 text-center">
+                        <input type="file" id="imageUpload" accept="image/*" class="hidden">
+                        <label for="imageUpload" class="cursor-pointer">
+                            <div class="space-y-2">
+                                <svg class="mx-auto h-12 w-12 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <p class="text-white">Click to upload or drag and drop</p>
+                                <p class="text-sm text-gray-400">PNG, JPG, JPEG up to 10MB</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Analysis Results -->
+                <div id="results" class="hidden">
+                    <h2 class="text-2xl heading-font text-white mb-4">Analysis Results</h2>
+                    <div id="labelResults" class="mb-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <script>
+        const imageUpload = document.getElementById('imageUpload');
+        const results = document.getElementById('results');
+
+        imageUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/api/analyze/collective', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayResults(data);
+                } else {
+                    throw new Error('Analysis failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during analysis');
+            }
+        });
+
+        function displayResults(data) {
+            results.classList.remove('hidden');
+            const labelResults = document.getElementById('labelResults');
+            labelResults.innerHTML = '<div class="flex justify-center items-center"><svg class="animate-spin h-8 w-8 text-blue-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg><span class="text-blue-700 font-semibold">Analyzing X-ray...</span></div>';
+            setTimeout(function() {
+                if (data.error) {
+                    labelResults.innerHTML = `<div class=\"bg-red-100 text-red-800 rounded p-4 font-semibold\">${data.error}</div>`;
+                } else if (data.success && data.labels) {
+                    // Group indices for each arch
+                    const groups = [
+                        {
+                            heading: 'Mandibular Left',
+                            indices: [0,1,2,3,4,5,6]
+                        },
+                        {
+                            heading: 'Mandibular Right',
+                            indices: [7,8,9,10,11,12,13]
+                        },
+                        {
+                            heading: 'Maxillary Right',
+                            indices: [14,15,16,17,18,19,20]
+                        },
+                        {
+                            heading: 'Maxillary Left',
+                            indices: [21,22,23,24,25,26,27]
+                        }
+                    ];
+                    let html = '';
+                    groups.forEach(group => {
+                        html += `<div class=\"mb-6\">\n                            <h3 class=\"text-lg font-bold text-blue-800 mb-3\">${group.heading}</h3>\n                            <div class=\"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3\">`;
+                        group.indices.forEach(idx => {
+                            const item = data.labels[idx];
+                            html += `<div class=\"bg-white/80 rounded shadow p-3 flex flex-col\">\n                                <span class=\"font-semibold text-blue-900\">${item.tooth}</span>\n                                <span class=\"text-gray-800 mt-1\">${item.label}</span>\n                            </div>`;
+                        });
+                        html += `</div></div>`;
+                    });
+                    labelResults.innerHTML = html;
+                }
+            }, 30000);
+        }
+    </script>
+</body>
+</html> 
